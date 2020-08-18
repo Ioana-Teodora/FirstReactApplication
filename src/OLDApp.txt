@@ -1,0 +1,52 @@
+import React, { useState } from 'react';
+import './App.css';
+import Person from './Person/Person'
+
+
+const app=props=> {
+  const [personsState,setPersonsState]=useState(
+
+    {
+      persons:[
+        {name:'Max',age:28},
+        {name:'Manu',age:29},
+        {name:'Teo',age:21}
+    
+      ]
+    
+    }
+  );
+
+  const [otherState,setOtherstate]=useState('some other value');
+  console.log(personsState, otherState);
+   const  switchNameHandler=()=>{
+    // console.log('Was clicked');
+    setPersonsState({
+     persons:[
+       {name:'Maximilisn',age:28},
+       {name:'Manu',age:29},
+       {name:'Teo',age:22}
+   
+     ],
+    });
+    //DONT' Do THIS!!state.persons[0].name='Maximilian';
+   };
+
+    return (
+      <div className="App">
+        <h1>Hi, I'm a react app!!!</h1>
+        <p>This is realy working!</p>
+        <button onClick={switchNameHandler}>Switch Name</button>
+        <Person name={personsState.persons[0].name} age={personsState.persons[0].age}/>
+        <Person name={personsState.persons[1].name} age={personsState.persons[1].age}> My hobby: picture</Person>
+        <Person name={personsState.persons[2].name} age={personsState.persons[2].age}/>
+
+        
+      </div>
+    );
+  }
+
+
+export default app;
+
+
