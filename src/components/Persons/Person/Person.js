@@ -1,41 +1,55 @@
-import React from 'react';
+import React,{Component, Fragment} from 'react';
 // import styled from 'styled-components';
 import classes from './Person.css';
+import withClass from '../../../hoc/withClass';
+import Aux from '../../../hoc/Auxiliar';
 
-const person =  (props) => {
-    // const style ={
-    //     '@media(min-width: 500px)':{
-    //         width: '450px'
-    //     }
-    // };
-//     const StyleDiv= styled.div`
-            
-//     width: 60%;
-//     margin: 16px auto;
-//     border: 1px solid #eee;
-//     box-shadow: 0 2px 3px #ccc;
-//     padding: 16px;
-//     text-align: center;
+import PropTypes from 'prop-types';
+import AuthContext from '../../../context/auth-context';
+class Person extends Component  {
+    constructor(props){
+        super(props);
+        this.inputElementRef=React.createRef();
 
-//     @media(min-width: 500px) {
-        
-//             width: 450px;
-//     }
-// `
+    }
+    static contextType= AuthContext;//pentru accesarea contextului
+    componentDidMount(){
+        // this.inputElement.focus();
+        this.inputElementRef.current.focus();
+        console.log(this.context.authenticated);
 
-// const rnd=Math.random();
-// if(rnd>0.7){
-//     throw new Error('Something went wrong');
-// }
+    }
+
+    render(){
+console.log('person.js --rendering...');
     return (
         // <div className="Person" style={style}>
-       <div className={classes.Person}>
-            <p onClick={props.click}>I'm a {props.name} and {props.age} years old! </p>
-            <p>{props.children}</p>
-            <input type="text" onChange={props.changed} value={props.name}/>
-        </div>
+        <Aux>
+    {/* //        <AuthContext.Consumer>
+    //            {
+    //                (context)=>  context.authenticated?<p>Authenticated!</p>:<p>Please log in</p>
+    //            }
+    //        </AuthContext.Consumer> */}
+    {this.context.authenticated?<p>Authenticated!</p>:<p>Please log in</p>
+    }
+           
+            <p onClick={this.props.click}>I'm  {this.props.name} and I am {this.props.age} years old! </p>
+            <p>{this.props.children}</p>
+            <input 
+            // ref={(inputEl)=>{this.inputElement=inputEl}}
+            ref={this.inputElementRef}
+            type="text" onChange={this.props.changed} value={this.props.name}/>
+        </Aux>
         
     )
+};};
+//ajutam utilizatorul cu adnotatii despre componentele noastre create
+//ii oferim atat parametri cat si tipul acestora
+Person.propTypes={
+click: PropTypes.func,
+name: PropTypes.string,
+age: PropTypes.number,
+changed: PropTypes.func
 };
 
-export default person;
+export default withClass(Person,classes.Person);
